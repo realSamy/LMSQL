@@ -6,7 +6,7 @@
      * @author Arash Soleimani <arash@leomoon.com>
      * @link http://arashsoleimani.com
      * @license https://opensource.org/licenses/MIT - The MIT License
-     * @version 1.0
+     * @version 1.1
      * 
      */
     class LMSQL {
@@ -262,7 +262,7 @@
                 $query .= " FROM ".$queryInfo['table'];
             }
             if($action == 'update'){
-                $query = "UPDATE ".$queryInfo['table']." SET ".$this->buildWhereQuery($queryInfo['values']);
+                $query = "UPDATE ".$queryInfo['table']." SET ".$this->buildUpdateQuery($queryInfo['values']);
             }
             if($action == 'delete'){
                 $query = "DELETE FROM ".$queryInfo['table'];
@@ -313,7 +313,25 @@
             }
             return $query;
         }
-        
+
+        /**
+         * Build Update query (key-value)
+         * @param array
+         * 
+         * @return string
+         */
+        private function buildUpdateQuery($values){
+            $query = "";
+            if($values){
+                $comma = "";
+                foreach ($values as $key=>$value) {
+                        $query.="$comma `$key`='$value' ";
+                    $comma=', ';
+                }
+            }
+            return $query;
+        }
+
         /**
          * Build search query
          * @param array
